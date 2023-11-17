@@ -1,16 +1,19 @@
 import cors from 'cors'
 import express, { Application, Request, Response } from 'express'
+import config from './app/config'
+import { studentRoutes } from './app/modules/student/student.route'
+
 const app: Application = express()
 
-// parser
+//parsers
 app.use(express.json())
 app.use(cors())
 
-app.get('/', (req: Request, res: Response) => {
-  const b = 5000
-  res.send(b)
-})
+// application routes
+app.use('/api/v1/students', studentRoutes)
 
-console.log(process.cwd())
+app.get('/', (req: Request, res: Response) => {
+  res.send(config.database_url)
+})
 
 export default app
