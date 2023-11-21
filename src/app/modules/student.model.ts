@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose'
+
 import {
   Guardian,
   LoacalGuardian,
@@ -7,22 +8,33 @@ import {
 } from './student/student.interfase'
 
 const userNameSchema = new Schema<UserName>({
-  firstName: { type: String, required: true },
+  firstName: {
+    type: String,
+    trim: true,
+  },
   middleName: { type: String },
-  lastame: { type: String, required: true },
+  lastame: {
+    type: String,
+  },
 })
 
 const guardianSchema = new Schema<Guardian>({
-  fatherName: { type: String, required: true },
-  fatherOccupation: { type: String, required: true },
+  fatherName: {
+    type: String,
+  },
+  fatherOccupation: { type: String },
   fatherContact: { type: String, required: true },
-  motherName: { type: String, required: true },
-  motherOccupation: { type: String, required: true },
+  motherName: {
+    type: String,
+  },
+  motherOccupation: { type: String },
   motherContact: { type: String, required: true },
 })
 
 const localGuradianSchema = new Schema<LoacalGuardian>({
-  name: { type: String, required: true },
+  name: {
+    type: String,
+  },
   age: { type: Number },
   occupation: { type: String },
   contactNo: { type: String },
@@ -30,20 +42,43 @@ const localGuradianSchema = new Schema<LoacalGuardian>({
 })
 
 const studentSchema = new Schema<Student>({
-  id: { type: String, required: true },
-  name: userNameSchema,
-  gerder: ['Male', 'Female'],
-  email: { type: String, required: true },
+  id: { type: String, required: [true, 'Please input id'], unique: true },
+  name: {
+    type: userNameSchema,
+    required: true,
+  },
+  gerder: {
+    type: String,
+    enum: {
+      values: ['Male', 'Female'],
+      message: '{VALUE} is not valid',
+    },
+  },
+  email: {
+    type: String,
+    required: [true, 'Bhai email is required'],
+    unique: true,
+  },
   dateOfBirth: { type: String },
   contactNo: { type: String, required: true },
-  emergrncyNo: { type: String, required: true },
-  bloodGroup: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
-  presentAdress: { type: String, required: true },
-  parmnentAdress: { type: String, required: true },
-  guardian: guardianSchema,
+  emergrncyNo: { type: String },
+  bloodGroup: {
+    type: String,
+    enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+  },
+  presentAdress: { type: String },
+  parmnentAdress: { type: String },
+  guardian: {
+    type: guardianSchema,
+    required: true,
+  },
   localGuradian: localGuradianSchema,
   profileImage: { type: String },
-  active: ['active', 'blocked'],
+  active: {
+    type: String,
+    enum: ['active', 'blocked'],
+    default: 'active',
+  },
 })
 
 // modal
