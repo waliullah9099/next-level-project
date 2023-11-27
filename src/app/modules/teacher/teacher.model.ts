@@ -1,30 +1,25 @@
-import { Schema, model } from 'mongoose'
-import {
-  Address,
-  Classess,
-  Teacher,
-  TeacherName,
-} from './teacher/teacher.interface'
+import { Schema, model } from 'mongoose';
+import { Address, Classess, Teacher, TeacherName } from './teacher.interface';
 
 const teacherNameSchema = new Schema<TeacherName>({
   firstName: { type: String, required: true },
   middleName: { type: String },
   lastName: { type: String, required: true },
-})
+});
 
 const addressSchema = new Schema<Address>({
   district: { type: String, required: true },
   upazila: { type: String, required: true },
   postOffice: { type: String, required: true },
   zipCode: { type: String },
-})
+});
 
 const ClassessSchema = new Schema<Classess>({
   six: { type: String },
   seven: { type: String },
   ten: { type: String, required: true },
   nine: { type: String },
-})
+});
 
 const teacherSchema = new Schema<Teacher>({
   id: { type: String, required: true },
@@ -40,7 +35,7 @@ const teacherSchema = new Schema<Teacher>({
   presentAdress: addressSchema,
   parmanentAdress: addressSchema,
   institute: { type: String, required: true },
-})
+});
 
 // model according interface
-export const TeacherModel = model<Teacher>('Teacher', teacherSchema)
+export const TeacherModel = model<Teacher>('Teacher', teacherSchema);

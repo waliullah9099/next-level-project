@@ -1,39 +1,62 @@
-export type Guardian = {
-  fatherName: string
-  fatherOccupation: string
-  fatherContact: string
-  motherName: string
-  motherOccupation: string
-  motherContact: string
+import { Model, Types } from 'mongoose';
+
+export type TGuardian = {
+  fatherName: string;
+  fatherOccupation: string;
+  fatherContact?: string;
+  motherName: string;
+  motherOccupation: string;
+  motherContact: string;
+};
+
+export type TUserName = {
+  firstName: string;
+  middleName?: string;
+  lastame: string;
+};
+
+export type TLoacalGuardian = {
+  name: string;
+  age: number;
+  occupation: string;
+  contactNo: string;
+  address: string;
+};
+
+export type TStudent = {
+  id: string;
+  password: string;
+  name: TUserName;
+  user: Types.ObjectId;
+  gender: 'Male' | 'Female';
+  email: string;
+  dateOfBirth?: string;
+  contactNo: string;
+  emergrncyNo: string;
+  bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+  presentAdress: string;
+  parmnentAdress: string;
+  guardian: TGuardian;
+  localGuradian: TLoacalGuardian;
+  profileImage?: string;
+  isDeleted: boolean;
+};
+
+// for creating static
+
+export interface StudentModel extends Model<TStudent> {
+  // eslint-disable-next-line no-unused-vars
+  isUserExixts(id: string): Promise<TStudent | null>;
 }
 
-export type UserName = {
-  firstName: string
-  middleName: string
-  lastame: string
-}
+// for creating instance
 
-export type LoacalGuardian = {
-  name: string
-  age: number
-  occupation: string
-  contactNo: string
-  address: string
-}
+// export type TStudentMethods = {
+//   isExists(id: string): Promise<TStudent | null>
+// }
 
-export type Student = {
-  id: string
-  name: UserName
-  gerder: 'Male' | 'Female'
-  email: string
-  dateOfBirth?: string
-  contactNo: string
-  emergrncyNo: string
-  bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-'
-  presentAdress: string
-  parmnentAdress: string
-  guardian: Guardian
-  localGuradian: LoacalGuardian
-  profileImage: string
-  active: 'active' | 'blocked'
-}
+// export type TStudentModel = Model<
+//   TStudent,
+//   Record<string, never>,
+//   TStudentMethods
+// >
