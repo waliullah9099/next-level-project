@@ -1,4 +1,4 @@
-import Joi from 'joi'
+import Joi from 'joi';
 
 const userValodationNameSchema = Joi.object({
   firstName: Joi.string()
@@ -20,7 +20,7 @@ const userValodationNameSchema = Joi.object({
       'any.required': 'Bhai last name is required',
       'string.pattern.base': '{#label} should contain only letters',
     }),
-})
+});
 
 const guardianValidationSchema = Joi.object({
   fatherName: Joi.string().required().messages({
@@ -33,7 +33,7 @@ const guardianValidationSchema = Joi.object({
   }),
   motherOccupation: Joi.string(),
   motherContact: Joi.string().required(),
-})
+});
 
 const localGuardianValidationSchema = Joi.object({
   name: Joi.string().required().messages({
@@ -43,9 +43,9 @@ const localGuardianValidationSchema = Joi.object({
   occupation: Joi.string(),
   contactNo: Joi.string(),
   address: Joi.string(),
-})
+});
 
-const studentValidationSchema = Joi.object({
+const studentJoiValidationSchema = Joi.object({
   id: Joi.string().required().messages({
     'any.required': 'Please input id',
   }),
@@ -76,6 +76,6 @@ const studentValidationSchema = Joi.object({
   localGuardian: localGuardianValidationSchema,
   profileImage: Joi.string(),
   active: Joi.string().valid('active', 'blocked').default('active'),
-})
+});
 
-export default studentValidationSchema
+export default studentJoiValidationSchema;

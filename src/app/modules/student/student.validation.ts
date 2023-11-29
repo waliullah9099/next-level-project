@@ -25,27 +25,30 @@ const LocalGuardianValidation = z
   })
   .optional();
 
-const studentValidationSchema = z.object({
-  id: z.string(),
-  password: z
-    .string()
-    .max(20, { message: "password cann't be more than 20 characters" }),
-  name: UserNameValidation,
-  email: z.string().email({ message: 'Invalid email address' }),
-  contactNo: z.string(),
-  guardian: GuardianValidation,
-  // Add other optional properties if needed, but here are the required ones:
-  gender: z.enum(['Male', 'Female']),
-  emergencyNo: z.string().optional(),
-  bloodGroup: z
-    .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
-    .optional(),
-  presentAddress: z.string().optional(),
-  permanentAddress: z.string().optional(),
-  localGuardian: LocalGuardianValidation,
-  profileImage: z.string().optional(),
-  active: z.enum(['active', 'blocked']).default('active'),
-  isDeleted: z.boolean(),
+export const createStudentValidationSchema = z.object({
+  body: z.object({
+    password: z
+      .string()
+      .max(20, { message: "password cann't be more than 20 characters" }),
+    student: z.object({
+      name: UserNameValidation,
+      gender: z.enum(['Male', 'Female']),
+      dateOfBirth: z.date().optional(),
+      email: z.string().email({ message: 'Invalid email address' }),
+      contactNo: z.string(),
+      emergrncyNo: z.string().optional(),
+      guardian: GuardianValidation,
+      bloodGroup: z
+        .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
+        .optional(),
+      presentAddress: z.string().optional(),
+      permanentAddress: z.string().optional(),
+      localGuardian: LocalGuardianValidation,
+      profileImage: z.string().optional(),
+    }),
+  }),
 });
 
-export default studentValidationSchema;
+export const studentValidations = {
+  createStudentValidationSchema,
+};
