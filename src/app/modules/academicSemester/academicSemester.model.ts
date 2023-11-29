@@ -19,7 +19,7 @@ export const academicSemesterSchema = new Schema<TacademicSemester>(
       enum: academicSemesterCode,
     },
     year: {
-      type: Date,
+      type: String,
       required: true,
     },
     startMonth: {
@@ -38,6 +38,20 @@ export const academicSemesterSchema = new Schema<TacademicSemester>(
   },
 );
 
+// pre save middleware
+academicSemesterSchema.pre('save', async function (next) {
+  const isExists = await AcademicSemester.findOne({
+    year: this.year,
+    name: this.name,
+  });
+
+  if (isExists) {
+    throw new Error('This is alrady exisxts for this year!');
+  }
+  next();
+});
+
+// create a model
 export const AcademicSemester = model<TacademicSemester>(
   'AcademicSemester',
   academicSemesterSchema,
