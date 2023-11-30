@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import { AcademicSemesterControllers } from './academicSemester.controller';
 import validateRequest from '../../middleware/validatedRequest';
-import { ceateAcademicValidationSemester } from './academicSemesterSchema.validation';
+import {
+  ceateAcademicValidationSemester,
+  updateAcademicSemesterValidationSchema,
+} from './academicSemesterSchema.validation';
 
 const router = Router();
 
@@ -12,6 +15,16 @@ router.post(
 );
 
 router.get('/', AcademicSemesterControllers.getAcademicSemester);
-router.get('/:Id', AcademicSemesterControllers.createAcademicSemester);
+
+router.get(
+  '/:semesterId',
+  AcademicSemesterControllers.getSingleAcademicSemester,
+);
+
+router.put(
+  '/:semesterId',
+  validateRequest(updateAcademicSemesterValidationSchema),
+  AcademicSemesterControllers.updateAcademicSemester,
+);
 
 export const academicSemesterRouter = router;

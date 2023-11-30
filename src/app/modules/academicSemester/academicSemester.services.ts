@@ -5,7 +5,7 @@ import { AcademicSemester } from './academicSemester.model';
 const createAcademicValidationSemesterIntoDb = async (
   payload: TacademicSemester,
 ) => {
-  if (AcademicSemesterNameCodeMapper[payload.year] !== payload.code) {
+  if (AcademicSemesterNameCodeMapper[payload.name] !== payload.code) {
     throw new Error('Invalid Semester Code');
   }
 

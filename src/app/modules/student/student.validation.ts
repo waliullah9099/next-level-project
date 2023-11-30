@@ -3,7 +3,7 @@ import { z } from 'zod';
 const UserNameValidation = z.object({
   firstName: z.string(),
   middleName: z.string().optional(),
-  lastName: z.string(),
+  lastame: z.string(),
 });
 
 const GuardianValidation = z.object({
@@ -33,7 +33,7 @@ export const createStudentValidationSchema = z.object({
     student: z.object({
       name: UserNameValidation,
       gender: z.enum(['Male', 'Female']),
-      dateOfBirth: z.date().optional(),
+      dateOfBirth: z.string().optional(),
       email: z.string().email({ message: 'Invalid email address' }),
       contactNo: z.string(),
       emergrncyNo: z.string().optional(),
@@ -45,6 +45,7 @@ export const createStudentValidationSchema = z.object({
       permanentAddress: z.string().optional(),
       localGuardian: LocalGuardianValidation,
       profileImage: z.string().optional(),
+      admissionSemester: z.string(),
     }),
   }),
 });

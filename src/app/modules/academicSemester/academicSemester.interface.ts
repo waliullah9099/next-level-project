@@ -12,8 +12,8 @@ export type TMonths =
   | 'November'
   | 'December';
 
-export type TacademicSemesterName = 'Autum' | ' Summer' | 'Fall';
-export type TacademicSemesterCode = '01' | '02' | ' 03';
+export type TacademicSemesterName = 'Autum' | 'Summer' | 'Fall';
+export type TacademicSemesterCode = '01' | '02' | '03';
 
 export type TacademicSemester = {
   name: TacademicSemesterName;
