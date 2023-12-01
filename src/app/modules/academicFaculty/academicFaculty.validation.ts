@@ -1,7 +1,18 @@
 import { z } from 'zod';
 
-const academicFacultyValidationSchema = z.object({
-  name: z.string(),
+const careteAcademicFacultyValidationSchema = z.object({
+  body: z.object({
+    name: z.string(),
+  }),
 });
 
-export const academicFacultyValidation = { academicFacultyValidationSchema };
+const updateAcademicFacultyValidationSchema = z.object({
+  body: z.object({
+    name: z.string(),
+  }),
+});
+
+export const academicFacultyValidation = {
+  careteAcademicFacultyValidationSchema,
+  updateAcademicFacultyValidationSchema,
+};

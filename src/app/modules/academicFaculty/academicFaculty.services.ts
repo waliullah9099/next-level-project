@@ -1,7 +1,7 @@
 import { TacademicFaculty } from './academicFaculty.interface';
 import { AcademicFaculty } from './academicFaculty.model';
 
-const createAcademicFacultyFromDb = async (payload: TacademicFaculty) => {
+const createAcademicFacultyInTomDb = async (payload: TacademicFaculty) => {
   const result = await AcademicFaculty.create(payload);
   return result;
 };
@@ -16,8 +16,19 @@ const getSingleAcademicFacultyFromDb = async (id: string) => {
   return result;
 };
 
+const updateAcademicFacultyInToDb = async (
+  id: string,
+  payload: Partial<TacademicFaculty>,
+) => {
+  const result = await AcademicFaculty.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  return result;
+};
+
 export const academicFacultySecrvices = {
-  createAcademicFacultyFromDb,
+  createAcademicFacultyInTomDb,
   getAllAcademicFacultyFromDb,
   getSingleAcademicFacultyFromDb,
+  updateAcademicFacultyInToDb,
 };
