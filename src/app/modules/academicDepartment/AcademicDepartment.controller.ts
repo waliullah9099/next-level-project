@@ -43,10 +43,10 @@ const getSingleAcademicDepartment = catchAsync(async (req, res) => {
 });
 
 const updateAcademicDepartment = catchAsync(async (req, res) => {
-  const { semesterId } = req.params;
+  const { DepartmentId } = req.params;
   const result =
     await academicDepartmentSecrvices.updateAcademicDepartmentInToDb(
-      semesterId,
+      DepartmentId,
       req.body,
     );
 

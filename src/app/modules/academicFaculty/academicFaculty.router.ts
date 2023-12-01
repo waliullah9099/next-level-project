@@ -22,7 +22,7 @@ router.put(
   validateRequest(
     academicFacultyValidation.updateAcademicFacultyValidationSchema,
   ),
-  academicFacultyControllers.getSingleAcademicFaculty,
+  academicFacultyControllers.updateAcademicFaculty,
 );
 
 export const academicFacultyRoutes = router;

@@ -16,12 +16,12 @@ router.post(
 router.get('/', academicDepartmentControllers.getAllAcademicDepartment);
 
 router.get(
-  '/:facultyId',
+  '/:DepartmentId',
   academicDepartmentControllers.getSingleAcademicDepartment,
 );
 
 router.put(
-  '/:facultyId',
+  '/:DepartmentId',
   validateRequest(
     academicDepartmentValidationSchema.updateAcademicDepartmentValidationSchema,
   ),

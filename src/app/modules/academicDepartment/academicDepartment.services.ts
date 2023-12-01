@@ -4,6 +4,11 @@ import { AcademicDepartment } from './academicDepartment.model';
 const createAcademicDepartmentInTomDb = async (
   payload: TacademicDepartment,
 ) => {
+  // const isDeptExists = await AcademicDepartment.findOne({ name: payload.name });
+  // if (isDeptExists) {
+  //   throw new Error('This department already exists......');
+  // }
+
   const result = await AcademicDepartment.create(payload);
   return result;
 };
