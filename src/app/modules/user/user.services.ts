@@ -5,6 +5,9 @@ import { TUser } from './user.interface';
 import { User } from './user.model';
 import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { generateStudentId } from './user.utils';
+import AppError from '../../errors/AppError';
+import httpStatus from 'http-status';
+import mongoose from 'mongoose';
 
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
   // create a user object
@@ -22,25 +25,47 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
   );
 
   if (!admissionSemester) {
-    throw new Error('admissionSemester not found');
+    throw new AppError(httpStatus.NOT_FOUND, 'admissionSemester not found');
   }
 
-  // set  id
-  userData.id = await generateStudentId(admissionSemester);
+  // start session
 
-  // create a user
-  const newUser = await User.create(userData);
+  const session = await mongoose.startSession();
 
-  // create a student
-  if (Object.keys(newUser).length) {
-    payload.id = newUser.id;
-    payload.user = newUser._id; // reference _id
+  try {
+    session.startTransaction();
+    // set id
+    userData.id = await generateStudentId(admissionSemester);
 
-    const newStudent = await Student.create(payload);
+    // create a user (transection - 1)
+    const newUser = await User.create([userData], { session });
+
+    // create a student
+    if (!newUser.length) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create user....');
+    }
+
+    payload.id = newUser[0].id;
+    payload.user = newUser[0]._id; // reference _id
+
+    // create a student (transection - 2)
+    const newStudent = await Student.create([payload], { session });
+
+    if (!newStudent.length) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        'Failed to create student....',
+      );
+    }
+
+    // save parmanently
+    await session.commitTransaction();
+    await session.endSession();
+
     return newStudent;
-  }
 
-  return newUser;
+    return newUser;
+  } catch (error) {}
 };
 
 export const userServices = {

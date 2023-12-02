@@ -7,7 +7,9 @@ const createAcademicFacultyInTomDb = async (payload: TacademicFaculty) => {
 };
 
 const getAllAcademicFacultyFromDb = async () => {
-  const result = await AcademicFaculty.find();
+  const result = await AcademicFaculty.find()
+    .populate('admissionSemester')
+    .populate('');
   return result;
 };
 
