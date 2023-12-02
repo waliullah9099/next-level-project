@@ -8,7 +8,7 @@ const getAllStudent = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student is create successfylly....',
+    message: 'All Student data loaded successfylly....',
     data: result,
   });
 });
@@ -20,6 +20,18 @@ const getSingleStudent = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Student data loadede successsully.....',
+    data: result,
+  });
+});
+
+const updateStudent = catchAsync(async (req, res) => {
+  const { studentId } = req.params;
+  const { student } = req.body;
+  const result = await studentServices.updateStudentInToDB(studentId, student);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'updated student data successsully.....',
     data: result,
   });
 });
@@ -38,5 +50,6 @@ const deldeteSingleStudent = catchAsync(async (req, res) => {
 export const studetController = {
   getAllStudent,
   getSingleStudent,
+  updateStudent,
   deldeteSingleStudent,
 };
