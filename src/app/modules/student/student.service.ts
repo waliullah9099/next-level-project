@@ -5,8 +5,30 @@ import { User } from '../user/user.model';
 import AppError from '../../errors/AppError';
 import { TStudent } from './student.interfase';
 
-const getAllStudentFromDB = async () => {
-  const result = await Student.find()
+const getAllStudentFromDB = async (query: Record<string, unknown>) => {
+  const queryObj = { ...query };
+
+  const studentSearchableQuery = ['email', 'name.firstName', 'gender'];
+
+  let searchTerm = '';
+
+  if (query?.searchTerm) {
+    searchTerm = query?.searchTerm as string;
+  }
+
+  const searchQuery = Student.find({
+    $or: studentSearchableQuery.map((field) => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  });
+
+  // filtering
+  const excludeFields = ['searchTerm'];
+  excludeFields.forEach((el) => delete queryObj[el]);
+  console.log({ query, queryObj });
+
+  const result = await searchQuery
+    .find(queryObj)
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',

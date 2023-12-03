@@ -10,7 +10,7 @@ import router from './app/routes';
 const app: Application = express();
 
 const test = async (req: Request, res: Response) => {
-  Promise.reject();
+  // Promise.reject();
 };
 app.get('/', test);
 
