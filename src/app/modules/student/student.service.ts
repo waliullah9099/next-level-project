@@ -4,9 +4,11 @@ import { Student } from './student.model';
 import { User } from '../user/user.model';
 import AppError from '../../errors/AppError';
 import { TStudent } from './student.interfase';
+import QueryBuilder from '../../builders/QueryBuilders';
+import { studentSearchableQuery } from './student.const';
 
 const getAllStudentFromDB = async (query: Record<string, unknown>) => {
-  // console.log('base query', query);
+  /* console.log('base query', query);
   const queryObj = { ...query };
 
   const studentSearchableQuery = ['email', 'name.firstName', 'gender'];
@@ -47,6 +49,7 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
 
   const sortQuery = filterQuery.sort(sort);
 
+
   let page = 1;
   let limit = 1;
   let skip = 0;
@@ -63,6 +66,7 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
 
   const limitQuery = paginateQuery.limit(limit);
 
+
   // field limiting
   let fields = '-__v';
 
@@ -74,6 +78,18 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
   const fieldsQuery = await limitQuery.select(fields);
 
   return fieldsQuery;
+
+      */
+
+  const StudentQuery = new QueryBuilder(Student.find(), query)
+    .search(studentSearchableQuery)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await StudentQuery.modelQuery;
+  return result;
 };
 
 const getSingleStudentFromDB = async (id: string) => {
